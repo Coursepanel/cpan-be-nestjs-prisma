@@ -13,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     NotionModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
-      isGlobal: true,
+      // isGlobal: true,
     }),
   ],
   controllers: [AppController, ScraperController, NotionController],

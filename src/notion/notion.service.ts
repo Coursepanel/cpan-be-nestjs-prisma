@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Client } from '@notionhq/client';
 
 @Injectable()
 export class NotionService {
-  databaseId = process.env.DB_ID;
+  constructor(private configService: ConfigService) {}
+  databaseId = this.configService.get<string>('DB_ID');
   // Initializing a client
   notion = new Client({
-    auth: process.env.NOTION_TOKEN,
+    auth: this.configService.get<string>('NOTION_TOKEN'),
   });
   async getCourseDb() {
     const response = await this.notion.databases.query({
