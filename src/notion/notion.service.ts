@@ -16,4 +16,18 @@ export class NotionService {
     });
     return response;
   }
+
+  async getCoursesByDept(deptId: string) {
+    console.log(deptId);
+    const response = await this.notion.databases.query({
+      database_id: this.databaseId,
+      filter: {
+        property: 'dept_code',
+        multi_select: {
+          contains: deptId,
+        },
+      },
+    });
+    return response;
+  }
 }
