@@ -1,22 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import cheerio from 'cheerio';
+import cheerio, { Element, Node } from 'cheerio';
 import * as puppeteer from 'puppeteer';
 @Injectable()
 export class ScraperService {
   async scrapeWeb() {
-    console.log(puppeteer);
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     await page.goto('https://academic.iitm.ac.in/course_detail.php');
     try {
-      const pageContent = await page.content;
-      const $ = cheerio.load(await pageContent());
-      const deptDropdown = $('select#department');
+      const pageContent = await page.content();
+      const $ = cheerio.load(pageContent);
       //TODO : add type safety
-      const options = Array.from(deptDropdown.children as any).slice(1);
-      console.log(options);
-      deptDropdown.val((options[0] as HTMLOptionElement).label);
-      await page.click('#slot_view');
+      const deptDropdown = $('select#department') as any;
+      const deptsArray = Array.from(deptDropdown.children());
+      // console.log(deptsArray);
+      const options = deptsArray
+        .slice(1, deptsArray.length - 1)
+        .map((option: Element) => option.attribs.value);
+      deptDropdown.val(options[0]);
+      // console.log(options[0]);
+      // await page.click(options[0]);
     } catch (error) {}
 
     // console.log(someEl)
