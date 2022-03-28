@@ -5,7 +5,9 @@
 
 1. Nest JS
 2. Notion SDK
-3. Mongo DB (works well with [nestjs](https://docs.nestjs.com/techniques/mongodb), setup using [docker](https://hub.docker.com/_/mongo) here )
+3. Mixpanel -for analytics
+4. Algolia - for search (look at MeiliSearch)
+6. Mongo DB (works well with [nestjs](https://docs.nestjs.com/techniques/mongodb), setup using [docker](https://hub.docker.com/_/mongo) here )
 
 
 #### Things I'm looking at
