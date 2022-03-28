@@ -10,10 +10,13 @@ export class ScraperService {
     await page.goto('https://academic.iitm.ac.in/course_detail.php');
     try {
       const pageContent = await page.content;
-      //TODO : add type safety
-      const $ = cheerio.load(pageContent as any);
+      const $ = cheerio.load(await pageContent());
       const deptDropdown = $('select#department');
-      console.log(deptDropdown);
+      //TODO : add type safety
+      const options = Array.from(deptDropdown.children as any).slice(1);
+      console.log(options);
+      deptDropdown.val((options[0] as HTMLOptionElement).label);
+      await page.click('#slot_view');
     } catch (error) {}
 
     // console.log(someEl)
@@ -42,6 +45,6 @@ export class ScraperService {
     //   price,
     // });
 
-    browser.close();
+    // browser.close();
   }
 }
