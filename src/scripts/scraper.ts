@@ -26,25 +26,27 @@ const scrapeCourse = async () => {
     'utf-8',
   );
   const textByLine = text.split('\n');
-  // console.log(textByLine);
   let errorCounter = 0;
-  const queriedResponses = textByLine.map(async (courseCode: string) => {
-    const form = new FormData();
-    form.append('pid', 'CoursesPendingApproval');
-    form.append('course', courseCode);
-    try {
-      const res = await axios.post(url, form, {
-        headers: {
-          ...form.getHeaders(),
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-      return res.data;
-    } catch (error) {
-      console.log('invalid row', errorCounter++);
-    }
-  });
-  console.log(queriedResponses.length);
+  const queriedResponses = textByLine.map(
+    async (courseCode: string, i: number) => {
+      const form = new FormData();
+      form.append('pid', 'CoursesPendingApproval');
+      form.append('dept_code', '');
+      form.append('course', courseCode);
+      try {
+        const res = await axios.post(url, form, {
+          headers: {
+            ...form.getHeaders(),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        });
+        return res.data;
+      } catch (error) {
+        console.log('invalid row', errorCounter++, i, courseCode);
+      }
+    },
+  );
+  // console.log(queriedResponses.length);
 };
 scrapeCourse();
 
