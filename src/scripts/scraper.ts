@@ -1,22 +1,36 @@
 import axios from 'axios';
 import * as FormData from 'form-data';
 
-const url = 'https://academic.iitm.ac.in/course_detail.php';
-const scrape = async () => {
+const url = 'https://academic.iitm.ac.in/load_record.php';
+// const scrapeDept = async () => {
+//   const form = new FormData();
+//   form.append('pid', 'course_details');
+//   form.append('dept_code', 'MS');
+//   form.append('course', '');
+//   console.log(form.getHeaders());
+//   const res = await axios.post(url, form, {
+//     headers: {
+//       ...form.getHeaders(),
+//       'content-type': 'application/x-www-form-urlencoded',
+//     },
+//   });
+//   console.log(res);
+// };
+// scrapeDept();
+
+const scrapeCourse = async () => {
   const form = new FormData();
-  form.append('pid', 'course_details');
-  form.append('dept_code', 'MS');
-  form.append('course', '');
-  console.log(form.getHeaders());
+  form.append('pid', 'CoursesPendingApproval');
+  form.append('course', 'MS5530');
   const res = await axios.post(url, form, {
     headers: {
       ...form.getHeaders(),
-      'content-type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
   });
-  console.log(res);
+  console.log(res.data);
 };
-scrape();
+scrapeCourse();
 
 // ? LEGACY APPROACH  - actually hand-scraping each course's details
 // const puppeteerScrapeWeb = () => {
