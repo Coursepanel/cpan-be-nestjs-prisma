@@ -1,34 +1,50 @@
 import axios from 'axios';
 import * as FormData from 'form-data';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const url = 'https://academic.iitm.ac.in/load_record.php';
-// const scrapeDept = async () => {
-//   const form = new FormData();
-//   form.append('pid', 'course_details');
-//   form.append('dept_code', 'MS');
-//   form.append('course', '');
-//   console.log(form.getHeaders());
-//   const res = await axios.post(url, form, {
-//     headers: {
-//       ...form.getHeaders(),
-//       'content-type': 'application/x-www-form-urlencoded',
-//     },
-//   });
-//   console.log(res);
-// };
-// scrapeDept();
-
-const scrapeCourse = async () => {
+const scrapeDept = async () => {
   const form = new FormData();
-  form.append('pid', 'CoursesPendingApproval');
-  form.append('course', 'MS5530');
+  form.append('pid', 'course_details');
+  form.append('dept_code', 'MS');
+  form.append('course', '');
+  console.log(form.getHeaders());
   const res = await axios.post(url, form, {
     headers: {
       ...form.getHeaders(),
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'content-type': 'application/x-www-form-urlencoded',
     },
   });
-  console.log(res.data);
+  console.log(res);
+};
+// scrapeDept();
+
+const scrapeCourse = async () => {
+  const text = fs.readFileSync(
+    path.resolve(__dirname, 'course_codes.txt'),
+    'utf-8',
+  );
+  const textByLine = text.split('\n');
+  // console.log(textByLine);
+  let errorCounter = 0;
+  const queriedResponses = textByLine.map(async (courseCode: string) => {
+    const form = new FormData();
+    form.append('pid', 'CoursesPendingApproval');
+    form.append('course', courseCode);
+    try {
+      const res = await axios.post(url, form, {
+        headers: {
+          ...form.getHeaders(),
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.log('invalid row', errorCounter++);
+    }
+  });
+  console.log(queriedResponses.length);
 };
 scrapeCourse();
 
