@@ -17,8 +17,8 @@ export class NotionService {
     return response;
   }
 
-  async getCoursesByDept(deptId: string) {
-    console.log(deptId);
+  //TODO : add type safety
+  async getCoursesByDept(deptId: string): Promise<any> {
     const response = await this.notion.databases.query({
       database_id: this.databaseId,
       filter: {
@@ -28,6 +28,14 @@ export class NotionService {
         },
       },
     });
-    return response;
+    //TODO : add type safety
+    const firstRes: any = response.results[0];
+    const prerequisites = firstRes.properties.prerequisites.relation.map(
+      (re: any) => re.id,
+    );
+    const name = firstRes.properties.name.rich_text[0].plain_text;
+    const deptCode = firstRes.properties.dept_code.multi_select[0].name;
+    const courseId = firstRes.properties.course_id.title[0].plain_text;
+    return { name, deptCode, courseId, prerequisites };
   }
 }

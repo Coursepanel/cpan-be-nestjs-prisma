@@ -11,7 +11,8 @@ export class NotionController {
   }
 
   @Get('dept/:deptId')
-  async getCoursesByDept(@Query('deptId') deptId) {
-    return this.notionService.getCoursesByDept(deptId);
+  async getCoursesByDept(@Param() params) {
+    console.log(`dept ID is ${params.deptId}`);
+    return this.notionService.getCoursesByDept(params.deptId);
   }
 }
