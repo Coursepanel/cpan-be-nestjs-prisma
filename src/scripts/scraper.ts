@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
 import * as path from 'path';
+import { load, Node } from 'cheerio';
 
 const url = 'https://academic.iitm.ac.in/load_record.php';
 const scrapeDept = async () => {
@@ -27,26 +28,75 @@ const scrapeCourse = async () => {
   );
   const textByLine = text.split('\n');
   let errorCounter = 0;
-  const queriedResponses = textByLine.map(
-    async (courseCode: string, i: number) => {
-      const form = new FormData();
-      form.append('pid', 'CoursesPendingApproval');
-      form.append('dept_code', '');
-      form.append('course', courseCode);
-      try {
-        const res = await axios.post(url, form, {
-          headers: {
-            ...form.getHeaders(),
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        });
-        return res.data;
-      } catch (error) {
-        console.log('invalid row', errorCounter++, i, courseCode);
-      }
-    },
-  );
-  // console.log(queriedResponses.length);
+  // const queriedResponses = textByLine.forEach(
+  //   async (courseCode: string, i: number) => {
+  //     const form = new FormData();
+  //     form.append('pid', 'CoursesPendingApproval');
+  //     form.append('dept_code', '');
+  //     form.append('course', courseCode);
+  //     try {
+  //       const res = await axios.post(url, form, {
+  //         headers: {
+  //           ...form.getHeaders(),
+  //           'Content-Type': 'application/x-www-form-urlencoded',
+  //         },
+  //       });
+  //       return res.data;
+  //     } catch (error) {
+  //       console.log('invalid row', errorCounter++, i, courseCode);
+  //     }
+  //   },
+  // );
+  const queryResponses: any = [];
+  // for (let i = 0; i < textByLine.length; i++) {
+  for (let i = 0; i < 20; i++) {
+    const courseCode = textByLine[i];
+    const form = new FormData();
+    form.append('pid', 'CoursesPendingApproval');
+    form.append('dept_code', '');
+    form.append('course', courseCode);
+    try {
+      const res = await axios.post(url, form, {
+        headers: {
+          ...form.getHeaders(),
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+      console.log(courseCode, i);
+      queryResponses.push(res.data);
+    } catch (error) {
+      console.log('invalid row', errorCounter++, i, courseCode);
+    }
+  }
+  const $ = load(queryResponses[4]);
+  const heading = $('h4:nth-of-type(1)').text();
+  const description = (
+    $('h5 p:nth-of-type(1)').children()['0'].next as unknown as ModifiedNode
+  )?.data;
+  const courseContent = (
+    $('h5 p:nth-of-type(2)').children()['0'].next as unknown as ModifiedNode
+  )?.data;
+  const textBooks = (
+    $('h5 p:nth-of-type(3)').children()['0'].next as unknown as ModifiedNode
+  )?.data;
+  const referenceBooks = (
+    $('h5 p:nth-of-type(4)').children()['0'].next as unknown as ModifiedNode
+  )?.data;
+  const prerequisites = (
+    $('h5 p:nth-of-type(5)').children()['0'].next as unknown as ModifiedNode
+  )?.data;
+  console.log(heading);
+  console.log(`---------------`);
+  console.log(description);
+  console.log(`---------------`);
+  console.log(courseContent);
+  console.log(`---------------`);
+  console.log(textBooks);
+  console.log(`---------------`);
+  console.log(referenceBooks);
+  console.log(`---------------`);
+  console.log(prerequisites);
+  console.log(`---------------`);
 };
 scrapeCourse();
 
