@@ -1,11 +1,9 @@
-import { Node } from "cheerio";
+import { Node } from 'cheerio';
 
 declare global {
-    interface ModifiedNode implements Node {
-        data:string
-    }
+  interface ModifiedNode extends Node {
+    data: string;
   }
-  
-  // eslint-disable-next-line import/prefer-default-export
-  export { global };
-  
+}
+
+export { global };
