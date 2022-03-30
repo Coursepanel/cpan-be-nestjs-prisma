@@ -23,8 +23,8 @@ export class NotionService {
       database_id: this.databaseId,
       filter: {
         property: 'dept_code',
-        multi_select: {
-          contains: deptId,
+        select: {
+          equals: deptId,
         },
       },
     });
@@ -34,7 +34,7 @@ export class NotionService {
       (re: any) => re.id,
     );
     const name = firstRes.properties.name.rich_text[0].plain_text;
-    const deptCode = firstRes.properties.dept_code.multi_select[0].name;
+    const deptCode = firstRes.properties.dept_code.select.name;
     const courseId = firstRes.properties.course_id.title[0].plain_text;
     return { name, deptCode, courseId, prerequisites };
   }
