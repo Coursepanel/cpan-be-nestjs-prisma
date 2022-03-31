@@ -11,5 +11,9 @@ export class User {
   @Column('varchar', { length: 8 })
   rollNumber: string;
 
+  @Column()
+  phoneNumber?: string;
+  @Column()
+  isPrivacyOpen?: boolean;
   // TODO :Add one-to-many mapping between course & user
 }
