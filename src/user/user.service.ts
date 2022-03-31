@@ -22,7 +22,6 @@ export class UserService {
     await this.usersRepository.delete(id);
   }
   async createUser(name: string, rollNumber: string): Promise<void> {
-    console.log(name, rollNumber);
     await this.usersRepository.save({ name, rollNumber });
   }
 }
