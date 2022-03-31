@@ -1,22 +1,29 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ScraperController } from './scraper/scraper.controller';
 import { ScraperModule } from './scraper/scraper.module';
-import { NotionController } from './notion/notion.controller';
 import { NotionModule } from './notion/notion.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user/user.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      port: '27017',
+      host: 'localhost',
+      database: 'coursemap-db',
+      // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
+      synchronize: true,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    }),
     ScraperModule,
     NotionModule,
+    UserModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       // isGlobal: true,
     }),
   ],
-  controllers: [AppController, ScraperController, NotionController],
-  providers: [AppService],
 })
 export class AppModule {}

@@ -29,26 +29,6 @@ const scrapeCourse = async () => {
   );
   const textByLine = text.split('\n');
   let errorCounter = 0;
-  // const queriedResponses = textByLine.forEach(
-  //   async (courseCode: string, i: number) => {
-  //     const form = new FormData();
-  //     form.append('pid', 'CoursesPendingApproval');
-  //     form.append('dept_code', '');
-  //     form.append('course', courseCode);
-  //     try {
-  //       const res = await axios.post(url, form, {
-  //         headers: {
-  //           ...form.getHeaders(),
-  //           'Content-Type': 'application/x-www-form-urlencoded',
-  //         },
-  //       });
-  //       return res.data;
-  //     } catch (error) {
-  //       console.log('invalid row', errorCounter++, i, courseCode);
-  //     }
-  //   },
-  // );
-  const queryResponses: any = [];
   const connection = await mongoose.connect(
     'mongodb://localhost:27017/coursemap-db',
   );

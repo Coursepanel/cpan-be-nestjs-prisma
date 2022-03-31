@@ -22,3 +22,8 @@
 2. Setup local mongodb using `docker run -d -p 27017-27019:27017-27019 --name collegemap-local-db mongo:4.0.4` command
 3. Inject scripts into local mongodb by running the files inside the `scripts` directory
 4. Run project in dev using `yarn start:dev` 
+
+
+### Decision reasons:
+
+1. For the time being, I have chosen not to connect using `ormconfig.json` [file](https://docs.nestjs.com/techniques/database) since it might limit the number of methods I can call such as `autoLoadEntities` while making the connection
