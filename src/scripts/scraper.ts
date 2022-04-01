@@ -72,7 +72,7 @@ const scrapeCourse = async () => {
       )?.data;
       const prerequisites = (
         $('h5 p:nth-of-type(5)').children()['0'].next as any
-      )?.data;
+      )?.data.split(',');
       const course = new Course({
         courseCode,
         name,
