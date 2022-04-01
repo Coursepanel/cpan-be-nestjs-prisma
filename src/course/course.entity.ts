@@ -11,6 +11,10 @@ export class Course {
   @Column('varchar', { length: 2 })
   deptCode: string;
 
+  //TODO : add type safety
+  @Column('varchar')
+  courseType: string;
+
   @Column('varchar')
   name: string;
 
@@ -19,6 +23,9 @@ export class Course {
 
   @Column()
   description?: string;
+
+  @Column()
+  courseContent?: string;
 
   @Column()
   textBooks?: string;

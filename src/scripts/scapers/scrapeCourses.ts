@@ -24,8 +24,9 @@ const scrapeCourse = async () => {
   const courseSchema = new Schema({
     courseCode: String,
     name: String,
-    credits: String,
+    credits: Number,
     deptCode: String,
+    courseContent: String,
     description: String,
     courseType: String,
     textBooks: [String],
@@ -53,9 +54,11 @@ const scrapeCourse = async () => {
       const description = processValue(
         ($('h5 p:nth-of-type(1)').children()['0']?.next as any)?.data,
       );
-      const courseContent = (
-        $('h5 p:nth-of-type(2)').children()['0']?.next as any
-      )?.data;
+      const courseContentFromDb = processValue(
+        ($('h5 p:nth-of-type(2)').children()['0']?.next as any)?.data,
+      );
+      const courseContent =
+        courseContentFromDb !== null ? courseContentFromDb.split('\n') : '';
       const textBooksFromDb = processValue(
         ($('h5 p:nth-of-type(3)').children()['0']?.next as any)?.data,
       );
