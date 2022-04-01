@@ -23,10 +23,11 @@ export class CourseService {
   //   await this.coursesRepository.delete(id);
   // }
 
-  async findByDept(id: string): Promise<Course[]> {
+  async findByDept(deptCode: string): Promise<Course[]> {
+    console.log(deptCode);
     return await this.coursesRepository.find({
       where: {
-        departmentId: id,
+        deptCode: deptCode,
       },
     });
   }

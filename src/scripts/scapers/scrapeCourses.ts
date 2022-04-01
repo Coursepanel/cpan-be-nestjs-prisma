@@ -32,7 +32,7 @@ const scrapeCourse = async () => {
     referenceBooks: [String],
     prerequisites: [String],
   });
-  const Course = mongoose.model('Dev-course', courseSchema);
+  const Course = mongoose.model('Dev_course', courseSchema);
   for (let i = 0; i < textByLine.length; i++) {
     const courseInfo = textByLine[i];
     const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
@@ -50,22 +50,32 @@ const scrapeCourse = async () => {
       const $ = load(res.data);
       const name = $('h4:nth-of-type(1)').text();
       //TODO : add type safety
-      const description = (
-        $('h5 p:nth-of-type(1)').children()['0']?.next as any
-      )?.data;
+      const description = processValue(
+        ($('h5 p:nth-of-type(1)').children()['0']?.next as any)?.data,
+      );
       const courseContent = (
         $('h5 p:nth-of-type(2)').children()['0']?.next as any
       )?.data;
-      const textBooks = ($('h5 p:nth-of-type(3)').children()['0']?.next as any)
-        ?.data;
-      const referenceBooks = (
-        $('h5 p:nth-of-type(4)').children()['0']?.next as any
-      )?.data;
-      const prerequisites = (
-        $('h5 p:nth-of-type(5)').children()['0']?.next as any
-      )?.data
-        ?.split(',')
-        .map((prerequisite: string) => prerequisite.trim());
+      const textBooksFromDb = processValue(
+        ($('h5 p:nth-of-type(3)').children()['0']?.next as any)?.data,
+      );
+      const textBooks =
+        textBooksFromDb !== null ? textBooksFromDb.split('\n') : [];
+      const referenceBooksFromDb = processValue(
+        ($('h5 p:nth-of-type(4)').children()['0']?.next as any)?.data,
+      );
+      const referenceBooks =
+        referenceBooksFromDb !== null ? referenceBooksFromDb.split('\n') : [];
+      const prerequisitesFromDb = processValue(
+        ($('h5 p:nth-of-type(5)').children()['0']?.next as any)?.data,
+      );
+
+      const prerequisites =
+        prerequisitesFromDb !== null
+          ? prerequisitesFromDb
+              ?.split(',')
+              .map((prerequisite: string) => prerequisite.trim())
+          : [];
       const course = new Course({
         courseCode,
         name,
@@ -86,6 +96,24 @@ const scrapeCourse = async () => {
   }
 };
 scrapeCourse();
+
+const processValue = (value: string): null | string => {
+  if (!value) return null;
+  const actualValue: string = value?.toLowerCase();
+  if (
+    !actualValue ||
+    actualValue === 'nil' ||
+    actualValue === '-nil-' ||
+    actualValue === 'null' ||
+    actualValue === 'na' ||
+    actualValue === 'n/a' ||
+    actualValue === 'none' ||
+    actualValue === '---' ||
+    actualValue === 'NULL'
+  ) {
+    return null;
+  } else return value;
+};
 
 // ? LEGACY APPROACH  - actually hand-scraping each course's details
 // const puppeteerScrapeWeb = () => {

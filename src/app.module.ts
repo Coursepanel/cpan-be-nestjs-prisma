@@ -1,3 +1,4 @@
+import { CourseModule } from './course/course.module';
 import { Module } from '@nestjs/common';
 import { ScraperModule } from './scraper/scraper.module';
 import { NotionModule } from './notion/notion.module';
@@ -20,6 +21,7 @@ import { User } from './user/user.entity';
     ScraperModule,
     NotionModule,
     UserModule,
+    CourseModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       // isGlobal: true,
