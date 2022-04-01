@@ -24,7 +24,6 @@ export class CourseService {
   // }
 
   async findByDept(deptCode: string): Promise<Course[]> {
-    console.log(deptCode);
     return await this.coursesRepository.find({
       where: {
         deptCode: deptCode,
