@@ -32,7 +32,7 @@ const scrapeCourse = async () => {
     referenceBooks: [String],
     prerequisites: [String],
   });
-  const Course = mongoose.model('Dev_course', courseSchema);
+  const Course = mongoose.model('Course', courseSchema);
   for (let i = 0; i < textByLine.length; i++) {
     const courseInfo = textByLine[i];
     const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
