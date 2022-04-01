@@ -25,13 +25,13 @@ export class Course {
   description?: string;
 
   @Column()
-  courseContent?: string;
+  courseContent?: string[];
 
   @Column()
-  textBooks?: string;
+  textBooks?: string[];
 
   @Column()
-  referenceBooks?: string;
+  referenceBooks?: string[];
 
   @Column()
   prerequisites?: string[];

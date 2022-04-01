@@ -26,7 +26,7 @@ const scrapeCourse = async () => {
     name: String,
     credits: Number,
     deptCode: String,
-    courseContent: String,
+    courseContent: [String],
     description: String,
     courseType: String,
     textBooks: [String],
@@ -34,7 +34,7 @@ const scrapeCourse = async () => {
     prerequisites: [String],
   });
   const Course = mongoose.model('Course', courseSchema);
-  for (let i = 0; i < textByLine.length; i++) {
+  for (let i = 0; textByLine.length - 1; i++) {
     const courseInfo = textByLine[i];
     const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
     const form = new FormData();
@@ -57,18 +57,15 @@ const scrapeCourse = async () => {
       const courseContentFromDb = processValue(
         ($('h5 p:nth-of-type(2)').children()['0']?.next as any)?.data,
       );
-      const courseContent =
-        courseContentFromDb !== null ? courseContentFromDb.split('\n') : '';
+      const courseContent = processStringToStringArray(courseContentFromDb);
       const textBooksFromDb = processValue(
         ($('h5 p:nth-of-type(3)').children()['0']?.next as any)?.data,
       );
-      const textBooks =
-        textBooksFromDb !== null ? textBooksFromDb.split('\n') : [];
+      const textBooks = processStringToStringArray(textBooksFromDb);
       const referenceBooksFromDb = processValue(
         ($('h5 p:nth-of-type(4)').children()['0']?.next as any)?.data,
       );
-      const referenceBooks =
-        referenceBooksFromDb !== null ? referenceBooksFromDb.split('\n') : [];
+      const referenceBooks = processStringToStringArray(referenceBooksFromDb);
       const prerequisitesFromDb = processValue(
         ($('h5 p:nth-of-type(5)').children()['0']?.next as any)?.data,
       );
@@ -99,6 +96,17 @@ const scrapeCourse = async () => {
   }
 };
 scrapeCourse();
+
+const processStringToStringArray = (value: string): string[] => {
+  return value !== null
+    ? value.split('\n').map((elem: string) => {
+        if (elem.length > 0) {
+          elem.replace(/\t/g, '');
+          return elem.trim();
+        }
+      })
+    : [];
+};
 
 const processValue = (value: string): null | string => {
   if (!value) return null;
