@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
-@Entity('users')
+@Entity('courses')
 export class Course {
   @ObjectIdColumn()
   id: ObjectID;
@@ -9,10 +9,13 @@ export class Course {
   courseCode: string;
 
   @Column('varchar', { length: 2 })
-  departmentId: string;
+  deptCode: string;
 
   @Column('varchar')
   name: string;
+
+  @Column()
+  credits: number;
 
   @Column()
   description?: string;

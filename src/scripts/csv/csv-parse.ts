@@ -12,21 +12,29 @@ interface CourseRow {
 
 const parseCsv = async (rows: CourseRow[]) => {
   const writeStream = fs.createWriteStream(
-    path.resolve(__dirname, 'course_codes.txt'),
+    path.resolve(__dirname, 'course_info.txt'),
   );
-  fs.createReadStream(path.resolve(__dirname, 'courses_db.csv'))
+  fs.createReadStream(path.resolve(__dirname, 'downloaded_courses_db.csv'))
     .pipe(parse({ headers: true }))
     .on('error', (error) => console.error(error))
     .on('data', (row: CourseRow) => {
       // console.log(row);
       //each row can be written to db
       rows.push(row);
-      writeStream.write(row.course_code + '\n');
+      writeStream.write(
+        row.course_code +
+          ',' +
+          row.credits +
+          ',' +
+          row.type +
+          ',' +
+          row.dept_code +
+          '\n',
+      );
     })
     .on('end', (rowCount) => {
       console.log(`Parsed ${rowCount} rows`);
       console.log(rows.length);
-      return rows.map((row: CourseRow) => row.course_code);
     });
 };
 

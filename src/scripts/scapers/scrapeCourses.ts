@@ -2,14 +2,14 @@ import axios from 'axios';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
 import * as path from 'path';
-import { load, Node } from 'cheerio';
+import { load } from 'cheerio';
 import mongoose from 'mongoose';
 
 const url = 'https://academic.iitm.ac.in/load_record.php';
 
 const scrapeCourse = async () => {
   const text = fs.readFileSync(
-    path.resolve(__dirname, 'course_codes.txt'),
+    path.resolve(__dirname, '..', 'csv/course_info.txt'),
     'utf-8',
   );
   const textByLine = text.split('\n');
@@ -20,17 +20,22 @@ const scrapeCourse = async () => {
   console.log(connection);
   if (!connection) return;
   const Schema = mongoose.Schema;
+  //TODO : add type safety
   const courseSchema = new Schema({
     courseCode: String,
     name: String,
+    credits: String,
+    deptCode: String,
     description: String,
-    textBooks: String,
-    referenceBooks: String,
+    courseType: String,
+    textBooks: [String],
+    referenceBooks: [String],
     prerequisites: [String],
   });
-  const Course = mongoose.model('Course', courseSchema);
+  const Course = mongoose.model('Dev-course', courseSchema);
   for (let i = 0; i < textByLine.length; i++) {
-    const courseCode = textByLine[i];
+    const courseInfo = textByLine[i];
+    const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
     const form = new FormData();
     form.append('pid', 'CoursesPendingApproval');
     form.append('dept_code', '');
@@ -45,23 +50,28 @@ const scrapeCourse = async () => {
       const $ = load(res.data);
       const name = $('h4:nth-of-type(1)').text();
       //TODO : add type safety
-      const description = ($('h5 p:nth-of-type(1)').children()['0'].next as any)
-        ?.data;
-      const courseContent = (
-        $('h5 p:nth-of-type(2)').children()['0'].next as any
+      const description = (
+        $('h5 p:nth-of-type(1)').children()['0']?.next as any
       )?.data;
-      const textBooks = (
-        $('h5 p:nth-of-type(3)').children()['0'].next as any
-      )?.data.split('\n');
+      const courseContent = (
+        $('h5 p:nth-of-type(2)').children()['0']?.next as any
+      )?.data;
+      const textBooks = ($('h5 p:nth-of-type(3)').children()['0']?.next as any)
+        ?.data;
       const referenceBooks = (
-        $('h5 p:nth-of-type(4)').children()['0'].next as any
-      )?.data.split('\n');
+        $('h5 p:nth-of-type(4)').children()['0']?.next as any
+      )?.data;
       const prerequisites = (
-        $('h5 p:nth-of-type(5)').children()['0'].next as any
-      )?.data.split(',');
+        $('h5 p:nth-of-type(5)').children()['0']?.next as any
+      )?.data
+        ?.split(',')
+        .map((prerequisite: string) => prerequisite.trim());
       const course = new Course({
         courseCode,
         name,
+        credits: +credits,
+        courseType,
+        deptCode,
         description,
         courseContent,
         textBooks,
@@ -71,7 +81,7 @@ const scrapeCourse = async () => {
       await course.save();
       console.log(courseCode, i);
     } catch (error) {
-      console.log('invalid row', errorCounter++, i, courseCode);
+      console.log('invalid row', errorCounter++, i, courseCode, error);
     }
   }
 };
