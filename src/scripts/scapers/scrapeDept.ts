@@ -1,11 +1,8 @@
 import axios from 'axios';
 import * as FormData from 'form-data';
-import * as fs from 'fs';
-import * as path from 'path';
-import { load, Node } from 'cheerio';
-import mongoose from 'mongoose';
 
 const url = 'https://academic.iitm.ac.in/load_record.php';
+
 const scrapeDept = async () => {
   const form = new FormData();
   form.append('pid', 'course_details');
@@ -20,4 +17,4 @@ const scrapeDept = async () => {
   });
   console.log(res);
 };
-// scrapeDept();
+scrapeDept();
