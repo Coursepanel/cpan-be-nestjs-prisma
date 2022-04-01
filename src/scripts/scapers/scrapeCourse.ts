@@ -65,11 +65,12 @@ const scrapeCourse = async () => {
       const courseContent = (
         $('h5 p:nth-of-type(2)').children()['0'].next as any
       )?.data;
-      const textBooks = ($('h5 p:nth-of-type(3)').children()['0'].next as any)
-        ?.data;
+      const textBooks = (
+        $('h5 p:nth-of-type(3)').children()['0'].next as any
+      )?.data.split('\n');
       const referenceBooks = (
         $('h5 p:nth-of-type(4)').children()['0'].next as any
-      )?.data;
+      )?.data.split('\n');
       const prerequisites = (
         $('h5 p:nth-of-type(5)').children()['0'].next as any
       )?.data.split(',');

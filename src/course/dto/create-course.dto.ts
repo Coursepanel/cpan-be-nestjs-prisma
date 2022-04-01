@@ -1,6 +1,8 @@
-export class CreateUserDto {
+export class CreateCourseDto {
+  courseCode: string;
   name: string;
-  rollNumber: string;
-  phoneNumber?: string;
-  isPrivacyOpen?: boolean;
+  description?: string;
+  textBooks?: string;
+  referenceBooks?: string;
+  prerequisites?: string[];
 }

@@ -1,18 +1,23 @@
-import { UserService } from './course.service';
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { User } from './course.entity';
-import { CreateUserDto } from './dto/create-course.dto';
+import { CourseService } from './course.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Course } from './course.entity';
+import { CreateCourseDto } from './dto/create-course.dto';
 
-@Controller('users')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+@Controller('courses')
+export class CourseController {
+  constructor(private readonly courseService: CourseService) {}
   @Get()
-  async findAll(): Promise<User[]> {
-    return await this.userService.findAll();
+  async findAll(): Promise<Course[]> {
+    return await this.courseService.findAll();
+  }
+
+  @Get('dept/:deptId')
+  async findByDept(@Param() params): Promise<Course[]> {
+    return await this.courseService.findByDept(params.deptId);
   }
 
   @Post()
-  async createUser(@Body() user: CreateUserDto): Promise<void> {
-    return await this.userService.createUser(user.name, user.rollNumber);
+  async createCourse(@Body() course: CreateCourseDto): Promise<void> {
+    return await this.courseService.createCourse(course);
   }
 }

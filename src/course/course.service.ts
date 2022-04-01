@@ -1,27 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MongoRepository } from 'typeorm';
-import { User } from './course.entity';
+import { Course } from './course.entity';
+import { CreateCourseDto } from './dto/create-course.dto';
 
 @Injectable()
-export class UserService {
+export class CourseService {
   constructor(
-    @InjectRepository(User)
-    private readonly usersRepository: MongoRepository<User>,
+    @InjectRepository(Course)
+    private readonly coursesRepository: MongoRepository<Course>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<Course[]> {
+    return await this.coursesRepository.find();
   }
 
-  findOne(id: string): Promise<User> {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(id: string): Promise<Course> {
+    return await this.coursesRepository.findOneBy({ id });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+  // async remove(id: string): Promise<void> {
+  //   await this.coursesRepository.delete(id);
+  // }
+
+  async findByDept(id: string): Promise<Course[]> {
+    return await this.coursesRepository.find({
+      where: {
+        departmentId: id,
+      },
+    });
   }
-  async createUser(name: string, rollNumber: string): Promise<void> {
-    await this.usersRepository.save({ name, rollNumber });
+
+  async createCourse(course: CreateCourseDto): Promise<void> {
+    await this.coursesRepository.save(course);
   }
 }

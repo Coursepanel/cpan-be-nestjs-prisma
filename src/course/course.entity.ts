@@ -8,6 +8,9 @@ export class Course {
   @Column('varchar')
   courseCode: string;
 
+  @Column('varchar', { length: 2 })
+  departmentId: string;
+
   @Column('varchar')
   name: string;
 
