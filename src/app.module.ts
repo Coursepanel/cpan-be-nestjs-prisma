@@ -10,9 +10,13 @@ import { User } from './user/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mongodb',
+      // type: 'mongodb',
+      // port: '27017',
+      // host: 'localhost',
       port: '27017',
-      host: 'localhost',
+      host: 'varaipatam.2g6bq.mongodb.net',
+      username: 'coursemapper',
+      password: 'anA56sz3*CM100',
       database: 'coursemap-db',
       // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
       synchronize: true,

@@ -15,7 +15,7 @@ const scrapeCourse = async () => {
   const textByLine = text.split('\n');
   let errorCounter = 0;
   const connection = await mongoose.connect(
-    'mongodb://localhost:27017/coursemap-db',
+    'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
   );
   console.log(connection);
   if (!connection) return;
@@ -101,7 +101,7 @@ const processStringToStringArray = (value: string): string[] => {
   return value !== null
     ? value.split('\n').map((elem: string) => {
         if (elem.length > 0) {
-          elem.replace(/\t/g, '');
+          elem.replace(/\\t/g, '');
           return elem.trim();
         }
       })
