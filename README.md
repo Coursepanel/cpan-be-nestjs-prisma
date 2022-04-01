@@ -1,13 +1,12 @@
-## Coureplanner backend
+## Coursemap backend
 <hr/>
 
 #### Stack
 
 1. Nest JS
-2. Notion SDK
 3. Mixpanel -for analytics
 4. Algolia - for search (look at MeiliSearch)
-6. Mongo DB (works well with [nestjs](https://docs.nestjs.com/techniques/mongodb), setup using [docker](https://hub.docker.com/_/mongo) here )
+6. Mongo DB
 
 
 #### Things I'm looking at
@@ -16,7 +15,6 @@
 
 
 ### Setting up project 
-
 
 1. Here, we use `yarn` as package manager since it is faster. Run `yarn` in terminal to install all dependencies
 2. Setup local mongodb using `docker run -d -p 27017-27019:27017-27019 --name collegemap-local-db mongo:4.0.4` command
