@@ -5,7 +5,7 @@
 
 #### Stack
 
-1. Nest JS
+1. Nest TS
 3. Mixpanel -for analytics
 4. Algolia - for search (look at MeiliSearch)
 6. Mongo DB
@@ -27,5 +27,6 @@
 ### Decision reasons:
 
 1. For the time being, I have chosen not to connect using `ormconfig.json` [file](https://docs.nestjs.com/techniques/database) since it might limit the number of methods I can call such as `autoLoadEntities` while making the connection
+
 
 
