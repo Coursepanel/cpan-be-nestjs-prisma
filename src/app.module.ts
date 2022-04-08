@@ -9,30 +9,30 @@ import { getConnectionOptions } from 'typeorm';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      useFactory: async () =>
-        Object.assign(await getConnectionOptions(), {
-          autoLoadEntities: true,
-          keepConnectionAlive: true,
-          // Setting synchronize: true shouldnt be used in production - otherwise you can lose production data.
-          synchronize: true,
-          entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        }),
-    }),
     // TypeOrmModule.forRoot({
-    //   // type: 'mongodb',
-    //   // port: '27017',
-    //   // host: 'localhost',
-    //   port: '27017',
-    //   host: 'varaipatam.2g6bq.mongodb.net',
-    //   username: 'coursemapper',
-    //   password: 'anA56sz3*CM100',
-    //   database: 'coursemap-db',
-    //   keepConnectionAlive: true,
-    //   // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
-    //   synchronize: true,
-    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //   useFactory: async () =>
+    //     Object.assign(await getConnectionOptions(), {
+    //       autoLoadEntities: true,
+    //       keepConnectionAlive: true,
+    //       // Setting synchronize: true shouldnt be used in production - otherwise you can lose production data.
+    //       synchronize: true,
+    //       entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //     }),
     // }),
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      // port: '27017',
+      // host: 'varaipatam.2g6bq.mongodb.net',
+      port: '27017',
+      host: 'localhost',
+      // username: 'coursemapper',
+      // password: 'anA56sz3*CM100',
+      database: 'coursemap-db',
+      keepConnectionAlive: true,
+      // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
+      synchronize: true,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    }),
     ScraperModule,
     NotionModule,
     UserModule,
