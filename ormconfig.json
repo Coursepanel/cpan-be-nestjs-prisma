@@ -1,0 +1,8 @@
+{
+    "type": "mongodb",
+    "port": "27017",
+    "host": "varaipatam.2g6bq.mongodb.net",
+    "username": "coursemapper",
+    "password": "anA56sz3*CM100",
+    "database": "coursemap-db"
+}

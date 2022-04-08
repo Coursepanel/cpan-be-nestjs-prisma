@@ -74,8 +74,8 @@ const scrapeCourse = async () => {
       const prerequisites =
         prerequisitesFromDb !== null
           ? prerequisitesFromDb
-            ?.split(',')
-            .map((prerequisite: string) => prerequisite.trim())
+              ?.split(',')
+              .map((prerequisite: string) => prerequisite.trim())
           : [];
       const course = new Course({
         courseCode,
@@ -101,11 +101,11 @@ scrapeCourse();
 const processStringToStringArray = (value: string): string[] => {
   return value !== null
     ? value.split('\n').map((elem: string) => {
-      if (elem.length > 0) {
-        elem.replace(/\\t/g, '');
-        return elem.trim();
-      }
-    })
+        if (elem.length > 0) {
+          elem.replace(/\\t/g, '');
+          return elem.trim();
+        }
+      })
     : [];
 };
 
