@@ -23,7 +23,7 @@ import { getConnectionOptions } from 'typeorm';
       type: 'mongodb',
       // port: '27017',
       // host: 'localhost',
-      port: '27017',
+      port: 27017,
       url: 'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
       useNewUrlParser: true,
       // username: 'coursemapper',
