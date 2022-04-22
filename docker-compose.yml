@@ -2,5 +2,7 @@ version: '3.8'
 services:
   api-server:
     build: '.'
-    env_file: 
+    env_file:
       - './.env'
+    ports:
+      - "8080:8080"
