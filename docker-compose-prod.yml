@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   api-server:
-    build: '.'
+    image: ankit1841/coursemap-backend:latest
     env_file:
       - './.env'
     ports:
