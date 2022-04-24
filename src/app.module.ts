@@ -4,7 +4,9 @@ import { NotionModule } from './notion/notion.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getConnectionOptions } from 'typeorm';
+// import { getConnectionOptions } from 'typeorm';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -18,6 +20,10 @@ import { getConnectionOptions } from 'typeorm';
     //       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     //     }),
     // }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 20,
+    }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
       port: 27017,
@@ -35,6 +41,12 @@ import { getConnectionOptions } from 'typeorm';
       envFilePath: ['.env'],
       // isGlobal: true,
     }),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
