@@ -20,14 +20,9 @@ import { getConnectionOptions } from 'typeorm';
     // }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      // port: '27017',
-      // host: 'localhost',
       port: 27017,
-      url: 'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
+      url: process.env.MONGO_CONNECTION_STRING,
       useNewUrlParser: true,
-      // username: 'coursemapper',
-      // password: 'anA56sz3*CM100',
-      // database: 'coursemap-db',
       keepConnectionAlive: true,
       // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
       synchronize: true,
