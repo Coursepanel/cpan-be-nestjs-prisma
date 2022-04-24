@@ -8,4 +8,6 @@ RUN npm install --force
 
 COPY . .
 
+ENV NODE_ENV=production
+
 CMD ["npm", "start"]
