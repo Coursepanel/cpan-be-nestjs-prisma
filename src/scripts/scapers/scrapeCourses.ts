@@ -15,7 +15,7 @@ const scrapeCourse = async () => {
   const textByLine = text.split('\n');
   let errorCounter = 0;
   const connection = await mongoose.connect(
-    'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
+    process.env.MONGO_CONNECTION_STRING,
     // 'mongodb://localhost:27017/coursemap-db',
   );
   console.log(connection);
@@ -35,6 +35,7 @@ const scrapeCourse = async () => {
     prerequisites: [String],
   });
   const Course = mongoose.model('Course', courseSchema);
+  await Course.deleteMany();
   for (let i = 0; textByLine.length - 1; i++) {
     const courseInfo = textByLine[i];
     const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
