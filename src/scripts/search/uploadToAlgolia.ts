@@ -87,15 +87,14 @@ const uploadToAlgolia = async () => {
   const Course = mongoose.model('Course', courseSchema);
   const courses = await Course.find({});
   const courseList: any = [];
-  courses.forEach((course, i) => {
+  courses.forEach((course) => {
     if (
       course.name &&
       course.name?.length > 1 &&
       course.description &&
       course.deptCode &&
       course.deptCode?.length > 0 &&
-      course.description?.length > 20 &&
-      i < 50
+      course.description?.length > 20
     ) {
       courseList.push({
         name: course.name,
