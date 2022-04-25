@@ -1,8 +1,0 @@
-version: '3.8'
-services:
-  api-server:
-    image: ankit1841/coursemap-backend:latest
-    env_file:
-      - './.env'
-    ports:
-      - "8080:8080"
