@@ -7,7 +7,11 @@ async function bootstrap() {
       origin:
         process.env.NODE_ENV !== 'production'
           ? '*'
-          : ['^(https?://(?:.+.)?fallow.in(?::d{1,5})?)$', '103.158.43.20/32'],
+          : [
+              '^(https?://(?:.+.)?fallow.in(?::d{1,5})?)$',
+              'https://coursemap.fallow.in/*',
+              '103.158.43.20/32',
+            ],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
     },
