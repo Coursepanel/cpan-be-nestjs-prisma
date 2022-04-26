@@ -7,7 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { getConnectionOptions } from 'typeorm';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-import { AppController } from 'dist/app.controller';
 
 @Module({
   imports: [
@@ -35,8 +34,8 @@ import { AppController } from 'dist/app.controller';
       synchronize: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
-    NotionModule,
-    UserModule,
+    // NotionModule,
+    // UserModule,
     CourseModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
@@ -49,6 +48,5 @@ import { AppController } from 'dist/app.controller';
       useClass: ThrottlerGuard,
     },
   ],
-  controllers: [AppController],
 })
 export class AppModule {}

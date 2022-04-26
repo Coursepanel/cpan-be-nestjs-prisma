@@ -6,6 +6,10 @@ import { CreateCourseDto } from './dto/create-course.dto';
 @Controller('courses')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
+  @Get('test')
+  async testRes(): Promise<{ message: string }> {
+    return { message: `Responding from ${process.env.PORT_LISTENING}` };
+  }
   @Get()
   async findAll(): Promise<Course[]> {
     console.log('I returned courses from', process.env.PORT_LISTENING);
