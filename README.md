@@ -29,3 +29,6 @@
 
 
 2. Generated certi & key for HTTPS - `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365` - [Source](https://stackoverflow.com/questions/10175812/how-to-generate-a-self-signed-ssl-certificate-using-openssl)
+
+
+3. [Nginx dying issue](https://stackoverflow.com/questions/35868976/nginx-service-failed-because-the-control-process-exited)
