@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { getConnectionOptions } from 'typeorm';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { AppController } from 'dist/app.controller';
 
 @Module({
   imports: [
@@ -48,5 +49,6 @@ import { APP_GUARD } from '@nestjs/core';
       useClass: ThrottlerGuard,
     },
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

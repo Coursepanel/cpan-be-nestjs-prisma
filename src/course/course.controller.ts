@@ -8,6 +8,7 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
   @Get()
   async findAll(): Promise<Course[]> {
+    console.log('I returned courses from', process.env.PORT_LISTENING);
     return await this.courseService.findAll();
   }
 
