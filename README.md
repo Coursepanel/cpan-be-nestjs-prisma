@@ -32,6 +32,6 @@
 
 
 ### Upcoming features:
-1. User table
+1. Students table
 2. Connecting students
 3. GraphDB 
