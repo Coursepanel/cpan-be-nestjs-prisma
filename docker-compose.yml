@@ -2,7 +2,6 @@ version: '3.8'
 services:
   backend:
     build: .
-    container_name: coursemap-backend
     ports:
       - "8080:8080"
     env_file:
