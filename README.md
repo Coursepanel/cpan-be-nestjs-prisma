@@ -32,3 +32,7 @@
 
 
 3. [Nginx dying issue](https://stackoverflow.com/questions/35868976/nginx-service-failed-because-the-control-process-exited)
+### Upcoming features:
+1. Students table
+2. Connecting students
+3. GraphDB 
