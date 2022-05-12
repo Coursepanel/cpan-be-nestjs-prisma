@@ -17,6 +17,11 @@ Code
 3. DynamoDB (setup using [Docker](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html#docker) )
 
 
+### V2 features
+1. APIs over student, course tables
+2. Shift to graph db now
+3. Improve graph traversability & build student journeys
+
 ### Setting up project 
 
 1. Here, we use `yarn` as package manager since it is faster. Run `yarn` in terminal to install all dependencies
