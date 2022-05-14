@@ -1,6 +1,6 @@
 > Does it really change the world ?
 
-## Coursemap backend
+## CourseMap backend
 <hr/>
 Code
 
