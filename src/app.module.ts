@@ -19,7 +19,7 @@ import { APP_GUARD } from '@nestjs/core';
     //       synchronize: true,
     //       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     //     }),
-    // }),
+  // })
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 20,
