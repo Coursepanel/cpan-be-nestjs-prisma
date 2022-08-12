@@ -1,3 +1,4 @@
+import { InstituteModule } from './institute/institute.module';
 import { CourseModule } from './course/course.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -27,7 +28,8 @@ import { APP_GUARD } from '@nestjs/core';
     TypeOrmModule.forRoot({
       type: 'mongodb',
       port: 27017,
-      url: process.env.MONGO_CONNECTION_STRING,
+      // url: process.env.MONGO_CONNECTION_STRING,
+      url: 'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
       useNewUrlParser: true,
       keepConnectionAlive: true,
       // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
@@ -36,6 +38,7 @@ import { APP_GUARD } from '@nestjs/core';
     }),
     // UserModule,
     CourseModule,
+    InstituteModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       // isGlobal: true,
