@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import serverlessExpress from '@vendia/serverless-express'
-import {Callback, Context, Handler} from 'aws-lambda'
+import serverlessExpress from '@vendia/serverless-express';
+import { Callback, Context, Handler } from 'aws-lambda';
 // import * as fs from 'fs'
 // import * as path from 'path';
 
@@ -10,21 +10,20 @@ import {Callback, Context, Handler} from 'aws-lambda'
 //   cert: fs.readFileSync(path.join(__dirname,'./secrets/public-certificate.pem')),
 // };
 
-
-let server:Handler
+let server: Handler;
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-    app.enableCors();
-    await app.init();
-    const expressApp = app.getHttpAdapter().getInstance()
-    return serverlessExpress({app:expressApp});
+  const app = await NestFactory.create(AppModule);
+  app.enableCors();
+  await app.init();
+  const expressApp = app.getHttpAdapter().getInstance();
+  return serverlessExpress({ app: expressApp });
 }
 
-export const handler: Handler = async(
-    event: any,
-    context: Context,
-    callback: Callback
+export const handler: Handler = async (
+  event: any,
+  context: Context,
+  callback: Callback,
 ) => {
-    server = server ?? (await bootstrap())
-    return server(event, context, callback)
-}
+  server = server ?? (await bootstrap());
+  return server(event, context, callback);
+};

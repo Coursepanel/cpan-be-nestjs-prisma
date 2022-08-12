@@ -1,11 +1,12 @@
 import { CourseModule } from './course/course.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { getConnectionOptions } from 'typeorm';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+// import { InstituteService } from './institute/institute.service';
+// import { DepartmentService } from './department/department.service';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { APP_GUARD } from '@nestjs/core';
     //       synchronize: true,
     //       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     //     }),
-  // })
+    // })
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 20,
