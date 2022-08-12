@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { getConnectionOptions } from 'typeorm';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { DepartmentModule } from './department/department.module';
 // import { InstituteService } from './institute/institute.service';
 // import { DepartmentService } from './department/department.service';
 
@@ -38,6 +39,7 @@ import { APP_GUARD } from '@nestjs/core';
     }),
     // UserModule,
     CourseModule,
+    DepartmentModule,
     InstituteModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
