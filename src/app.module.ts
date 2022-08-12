@@ -1,6 +1,5 @@
 import { CourseModule } from './course/course.module';
 import { Module } from '@nestjs/common';
-import { NotionModule } from './notion/notion.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -34,7 +33,6 @@ import { APP_GUARD } from '@nestjs/core';
       synchronize: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
-    // NotionModule,
     // UserModule,
     CourseModule,
     ConfigModule.forRoot({
