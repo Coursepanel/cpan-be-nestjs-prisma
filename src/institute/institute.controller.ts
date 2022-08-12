@@ -8,12 +8,11 @@ export class InstituteController {
   constructor(private readonly instituteService: InstituteService) {}
   @Get()
   async findAll(): Promise<Institute[]> {
-    console.log(await this.instituteService.findAll());
     return await this.instituteService.findAll();
   }
   @Get('/:instituteId')
   async findById(@Param() params): Promise<Institute> {
-    return await this.instituteService.findOne(params.deptId);
+    return await this.instituteService.findOne(params.instituteId);
   }
   @Post()
   async createInstitute(@Body() institute: CreateInstituteDto): Promise<void> {

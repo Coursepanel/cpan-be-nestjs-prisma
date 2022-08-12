@@ -7,8 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { DepartmentModule } from './department/department.module';
-// import { InstituteService } from './institute/institute.service';
-// import { DepartmentService } from './department/department.service';
 
 @Module({
   imports: [
@@ -33,8 +31,7 @@ import { DepartmentModule } from './department/department.module';
       url: 'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
       useNewUrlParser: true,
       keepConnectionAlive: true,
-      // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
-      synchronize: true,
+      synchronize: false,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
     // UserModule,

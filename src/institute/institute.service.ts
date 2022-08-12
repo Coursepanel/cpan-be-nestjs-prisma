@@ -15,8 +15,8 @@ export class InstituteService {
     return await this.institutesRepository.find();
   }
 
-  async findOne(id: string): Promise<Institute> {
-    return await this.institutesRepository.findOneBy({ id });
+  async findOne(id: string): Promise<Institute | undefined> {
+    return await this.institutesRepository.findOneById(id);
   }
 
   async createInstitute(institute: CreateInstituteDto): Promise<void> {

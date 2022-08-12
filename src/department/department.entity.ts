@@ -1,13 +1,14 @@
+// import { Institute } from 'src/institute/institute.entity';
 import { Institute } from 'src/institute/institute.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
   ObjectID,
   ObjectIdColumn,
-  OneToOne,
-  RelationId,
   BaseEntity,
+  OneToOne,
+  JoinColumn,
+  RelationId,
 } from 'typeorm';
 
 @Entity('departments')
@@ -25,7 +26,7 @@ export class Department extends BaseEntity {
   achievements: string[];
 
   @Column()
-  // @OneToOne((type) => Institute)
+  // @OneToOne(() => Institute, { cascade: true })
   // @JoinColumn({ referencedColumnName: 'id', name: 'insti_id' })
   // institute: Institute;
   // @RelationId((department: Department) => department.institute)
