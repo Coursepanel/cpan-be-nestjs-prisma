@@ -1,12 +1,14 @@
-import { InstituteModule } from './institute/institute.module';
-import { CourseModule } from './course/course.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { getConnectionOptions } from 'typeorm';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-import { DepartmentModule } from './department/department.module';
+
+//* Importing all logic modules
+import { CourseModule } from './modules/course/course.module';
+import { DepartmentModule } from './modules/department/department.module';
+import { InstituteModule } from './modules/institute/institute.module';
 
 @Module({
   imports: [

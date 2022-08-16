@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Institute } from 'src/institute/institute.entity';
 import { MongoRepository } from 'typeorm';
 import { Semester } from './semester.entity';
 import { CreateSemesterDto } from './dto/create-semester.dto';
+import { Institute } from '../institute/institute.entity';
 
 @Injectable()
 export class SemesterService {

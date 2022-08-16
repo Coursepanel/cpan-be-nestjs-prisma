@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Institute } from 'src/institute/institute.entity';
 import { MongoRepository } from 'typeorm';
+import { Institute } from '../institute/institute.entity';
 import { Department } from './department.entity';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 
@@ -24,7 +24,6 @@ export class DepartmentService {
   }
 
   async findOne(id: string): Promise<Department> {
-    console.log(id);
     return await this.departmentsRepository.findOneById(id);
   }
 

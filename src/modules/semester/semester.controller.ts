@@ -2,7 +2,7 @@ import { SemesterService } from './semester.service';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Semester } from './semester.entity';
 import { CreateSemesterDto } from './dto/create-semester.dto';
-import { Institute } from 'src/institute/institute.entity';
+import { Institute } from '../institute/institute.entity';
 
 @Controller('semesters')
 export class SemesterController {

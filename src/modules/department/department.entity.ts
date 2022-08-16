@@ -1,5 +1,3 @@
-// import { Institute } from 'src/institute/institute.entity';
-import { Institute } from 'src/institute/institute.entity';
 import {
   Column,
   Entity,

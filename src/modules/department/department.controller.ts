@@ -2,7 +2,7 @@ import { DepartmentService } from './department.service';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Department } from './department.entity';
 import { CreateDepartmentDto } from './dto/create-department.dto';
-import { Institute } from 'src/institute/institute.entity';
+import { Institute } from '../institute/institute.entity';
 
 @Controller('departments')
 export class DepartmentController {
