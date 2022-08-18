@@ -1,4 +1,4 @@
-import { Department } from './../department/department.entity';
+import { Institute } from 'src/modules/institute/institute.entity';
 import {
   Column,
   Entity,
@@ -8,20 +8,17 @@ import {
   OneToOne,
 } from 'typeorm';
 
-@Entity('courses')
-export class Course {
+@Entity('pors')
+export class Por {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @Column('varchar')
-  courseCode: string;
-
-  // @Column('varchar', { length: 2 })
-  // deptCode: string;
-
-  @OneToOne(() => Department)
+  @OneToOne(() => Institute)
   @JoinColumn()
-  department: Department;
+  institute: string;
+
+  @Column('varchar', { length: 2 })
+  deptCode: string;
 
   //TODO : add type safety
   @Column('varchar')

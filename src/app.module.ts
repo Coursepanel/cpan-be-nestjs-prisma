@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { CourseModule } from './modules/course/course.module';
 import { DepartmentModule } from './modules/department/department.module';
 import { InstituteModule } from './modules/institute/institute.module';
+import { PorModule } from './modules/por/por.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { InstituteModule } from './modules/institute/institute.module';
       envFilePath: ['.env'],
       // isGlobal: true,
     }),
+    PorModule,
   ],
   providers: [
     {

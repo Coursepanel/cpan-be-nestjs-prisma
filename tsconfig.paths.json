@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@modules/*": ["./src/modules/*"],
+      "@course/*": ["./src/modules/course/*"]
+    },
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
+  }
+}
