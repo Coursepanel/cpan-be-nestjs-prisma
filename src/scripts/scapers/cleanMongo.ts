@@ -7,13 +7,7 @@ import mongoose from 'mongoose';
 
 const url = 'https://academic.iitm.ac.in/load_record.php';
 
-const scrapeCourse = async () => {
-  const text = fs.readFileSync(
-    path.resolve(__dirname, '..', 'csv/course_info.txt'),
-    'utf-8',
-  );
-  const textByLine = text.split('\n');
-  let errorCounter = 0;
+const cleanMongo = async () => {
   const connection = await mongoose.connect(
     // process.env.MONGO_CONNECTION_STRING,
     'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
@@ -35,70 +29,16 @@ const scrapeCourse = async () => {
     referenceBooks: [String],
     prerequisites: [String],
   });
-  const Course = mongoose.model('Kourse', courseSchema);
-  await Course.deleteMany();
-  // for (let i = 0; textByLine.length - 1; i++) {
-  for (let i = 0; 100; i++) {
-    const courseInfo = textByLine[i];
-    const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
-    const form = new FormData();
-    form.append('pid', 'CoursesPendingApproval');
-    form.append('dept_code', '');
-    form.append('course', courseCode);
+  const Course = mongoose.model('Course', courseSchema);
+  for (let i = 0; 20; i++) {
     try {
-      const res = await axios.post(url, form, {
-        headers: {
-          ...form.getHeaders(),
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-      const $ = load(res.data);
-      const name = $('h4:nth-of-type(1)').text();
-      //TODO : add type safety
-      const description = processValue(
-        ($('h5 p:nth-of-type(1)').children()['0']?.next as any)?.data,
-      );
-      const courseContentFromDb = processValue(
-        ($('h5 p:nth-of-type(2)').children()['0']?.next as any)?.data,
-      );
-      const courseContent = processStringToStringArray(courseContentFromDb);
-      const textBooksFromDb = processValue(
-        ($('h5 p:nth-of-type(3)').children()['0']?.next as any)?.data,
-      );
-      const textBooks = processStringToStringArray(textBooksFromDb);
-      const referenceBooksFromDb = processValue(
-        ($('h5 p:nth-of-type(4)').children()['0']?.next as any)?.data,
-      );
-      const referenceBooks = processStringToStringArray(referenceBooksFromDb);
-      const prerequisitesFromDb = processValue(
-        ($('h5 p:nth-of-type(5)').children()['0']?.next as any)?.data,
-      );
-
-      const prerequisites =
-        prerequisitesFromDb !== null
-          ? prerequisitesFromDb
-              ?.split(',')
-              .map((prerequisite: string) => prerequisite.trim())
-          : [];
-      const course = new Course({
-        courseCode,
-        name,
-        credits: +credits,
-        courseType,
-        deptCode,
-        description,
-        courseContent,
-        textBooks,
-        referenceBooks,
-        prerequisites,
-      });
       await course.save();
     } catch (error) {
       console.log('invalid row', errorCounter++, i, courseCode, error);
     }
   }
 };
-scrapeCourse();
+cleanMongo();
 
 const processStringToStringArray = (value: string): string[] => {
   return value !== null
