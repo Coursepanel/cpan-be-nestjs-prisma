@@ -5,7 +5,7 @@ import * as path from 'path';
 import { load } from 'cheerio';
 import mongoose from 'mongoose';
 
-const url = 'https://academic.iitm.ac.in/load_record.php';
+const url = 'https://academic.iitm.ac.in/load_record1.php';
 
 const scrapeCourse = async () => {
   const text = fs.readFileSync(
@@ -13,13 +13,13 @@ const scrapeCourse = async () => {
     'utf-8',
   );
   const textByLine = text.split('\n');
-  let errorCounter = 0;
+  const errorCounter = 0;
   const connection = await mongoose.connect(
     // process.env.MONGO_CONNECTION_STRING,
     'mongodb+srv://coursemapper:anA56sz3*CM100@varaipatam.2g6bq.mongodb.net/coursemap-db?retryWrites=true&w=majority',
     // 'mongodb://localhost:27017/coursemap-db',
   );
-  console.log(connection);
+  // console.log(connection);
   if (!connection) return;
   const Schema = mongoose.Schema;
   //TODO : add type safety
@@ -35,84 +35,85 @@ const scrapeCourse = async () => {
     referenceBooks: [String],
     prerequisites: [String],
   });
-  const Course = mongoose.model('Kourse', courseSchema);
-  await Course.deleteMany();
+  const Course = mongoose.model('Kourse', courseSchema, 'v2courses');
+  // await Course.deleteMany();
   // for (let i = 0; textByLine.length - 1; i++) {
-  for (let i = 0; 100; i++) {
-    const courseInfo = textByLine[i];
-    const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
-    const form = new FormData();
-    form.append('pid', 'CoursesPendingApproval');
-    form.append('dept_code', '');
-    form.append('course', courseCode);
-    try {
-      const res = await axios.post(url, form, {
-        headers: {
-          ...form.getHeaders(),
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-      const $ = load(res.data);
-      const name = $('h4:nth-of-type(1)').text();
-      //TODO : add type safety
-      const description = processValue(
-        ($('h5 p:nth-of-type(1)').children()['0']?.next as any)?.data,
-      );
-      const courseContentFromDb = processValue(
-        ($('h5 p:nth-of-type(2)').children()['0']?.next as any)?.data,
-      );
-      const courseContent = processStringToStringArray(courseContentFromDb);
-      const textBooksFromDb = processValue(
-        ($('h5 p:nth-of-type(3)').children()['0']?.next as any)?.data,
-      );
-      const textBooks = processStringToStringArray(textBooksFromDb);
-      const referenceBooksFromDb = processValue(
-        ($('h5 p:nth-of-type(4)').children()['0']?.next as any)?.data,
-      );
-      const referenceBooks = processStringToStringArray(referenceBooksFromDb);
-      const prerequisitesFromDb = processValue(
-        ($('h5 p:nth-of-type(5)').children()['0']?.next as any)?.data,
-      );
+  // for (let i = 0; i < 100; i++) {
+  const courseInfo = textByLine[84];
+  const [courseCode, credits, courseType, deptCode] = courseInfo.split(',');
+  const form = new FormData();
+  form.append('pid', 'CoursesPendingApproval');
+  form.append('course', courseCode);
+  try {
+    const res = await axios.post(url, form, {
+      headers: {
+        ...form.getHeaders(),
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    });
+    const $ = load(res.data);
+    const name = $('h4:nth-of-type(1)').text();
+    //TODO : add type safety
+    const description = processValue(
+      ($('h5 p:nth-of-type(1)').children()['0']?.next as any)?.data,
+    );
+    const courseContentFromDb = processValue(
+      ($('h5 p:nth-of-type(2)').children()['0']?.next as any)?.data,
+    );
+    const courseContent = processStringToStringArray(courseContentFromDb);
+    const textBooksFromDb = processValue(
+      ($('h5 p:nth-of-type(3)').children()['0']?.next as any)?.data,
+    );
+    const textBooks = processStringToStringArray(textBooksFromDb);
+    const referenceBooksFromDb = processValue(
+      ($('h5 p:nth-of-type(4)').children()['0']?.next as any)?.data,
+    );
+    const referenceBooks = processStringToStringArray(referenceBooksFromDb);
+    const prerequisitesFromDb = processValue(
+      ($('h5 p:nth-of-type(5)').children()['0']?.next as any)?.data,
+    );
 
-      const prerequisites =
-        prerequisitesFromDb !== null
-          ? prerequisitesFromDb
-              ?.split(',')
-              .map((prerequisite: string) => prerequisite.trim())
-          : [];
-      const course = new Course({
-        courseCode,
-        name,
-        credits: +credits,
-        courseType,
-        deptCode,
-        description,
-        courseContent,
-        textBooks,
-        referenceBooks,
-        prerequisites,
-      });
-      await course.save();
-    } catch (error) {
-      console.log('invalid row', errorCounter++, i, courseCode, error);
-    }
+    const prerequisites =
+      prerequisitesFromDb !== null && prerequisitesFromDb.length > 0
+        ? prerequisitesFromDb
+            ?.split(',')
+            .map((prerequisite: string) => prerequisite.trim())
+        : [];
+    const courseObj = {
+      courseCode,
+      name,
+      credits: +credits,
+      courseType,
+      deptCode,
+      description,
+      courseContent,
+      textBooks,
+      referenceBooks,
+      prerequisites,
+    };
+    // console.log(courseObj);
+    // const course = new Course(courseObj);
+    // await course.save();
+  } catch (error) {
+    // console.log('invalid row', errorCounter++, i, courseCode, error);
   }
+  // }
 };
 scrapeCourse();
 
 const processStringToStringArray = (value: string): string[] => {
-  return value !== null
-    ? value.split('\n').map((elem: string) => {
+  return !value.length
+    ? []
+    : value.split('\n').map((elem: string) => {
         if (elem?.length > 0) {
           elem.replace(/\\t/g, '');
           return elem.trim();
         }
-      })
-    : [];
+      });
 };
 
 const processValue = (value: string): null | string => {
-  if (!value) return null;
+  if (!value) return '';
   const actualValue: string = value?.toLowerCase();
   if (
     !actualValue ||
@@ -125,7 +126,7 @@ const processValue = (value: string): null | string => {
     actualValue === '---' ||
     actualValue === 'NULL'
   ) {
-    return null;
+    return '';
   } else return value;
 };
 
